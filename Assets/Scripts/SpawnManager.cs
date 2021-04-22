@@ -9,12 +9,21 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public void Start()
     {
-        SpawnEnemy();
+        // SpawnEnemy();
+        SpawnEnemyWave(3);
     }
 
     public void SpawnEnemy()
     {
         Instantiate(enemyPrefab, GenerateSpawnPosition(), Quaternion.identity);
+    }
+
+    public void SpawnEnemyWave(int enemysToSpawn)
+    {
+        for(int i = 0; i < enemysToSpawn; i++)
+        {
+            Instantiate(enemyPrefab, GenerateSpawnPosition(), Quaternion.identity);
+        }
     }
 
     private Vector3 GenerateSpawnPosition()
