@@ -12,7 +12,7 @@ public class SpawnManagerX : MonoBehaviour
     private float spawnZMax = 25; // set max spawn Z
 
     public int enemyCount;
-    public int waveCount = 1;
+    public static int waveCount = 1;
 
 
     public GameObject player;
