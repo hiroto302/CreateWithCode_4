@@ -6,16 +6,33 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 {
     public GameObject enemyPrefab;
     private float _spawnRange = 9;
+    public int enemyCount;
 
-    public void Start()
+    public int waveNumber = 1;
+
+    public GameObject powerupPrefab;
+
+    void Start()
     {
-        // SpawnEnemy();
-        SpawnEnemyWave(3);
+        SpawnObject(powerupPrefab);
+        SpawnEnemyWave(1);
+    
     }
 
-    public void SpawnEnemy()
+    void Update()
     {
-        Instantiate(enemyPrefab, GenerateSpawnPosition(), Quaternion.identity);
+        enemyCount = FindObjectsOfType<Enemy>().Length;
+        if(enemyCount == 0)
+        {
+            waveNumber++;
+            SpawnEnemyWave(waveNumber);
+            SpawnObject(powerupPrefab);
+        }
+    }
+
+    public void SpawnObject(GameObject obj)
+    {
+        Instantiate(obj, GenerateSpawnPosition(), Quaternion.identity);
     }
 
     public void SpawnEnemyWave(int enemysToSpawn)
