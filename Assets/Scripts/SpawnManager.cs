@@ -13,6 +13,11 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public GameObject[] powerupPrefabs;
 
+    // ボス機能を実装するための変数群
+    public GameObject bossPrefab;
+    public GameObject[] miniEnemyPrefabs;
+    public int bossRound = 3;
+
     void Start()
     {
         // PowerUp アイテムをランダムに生成
@@ -30,8 +35,18 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         {
             // wave の増加
             waveNumber++;
-            // 敵の生成
-            SpawnEnemyWave(waveNumber);
+
+            if (waveNumber % bossRound == 0)
+            {
+                // ボスの生成
+                SpawnBossWave(waveNumber);
+            }
+            else
+            {
+                // 敵の生成
+                SpawnEnemyWave(waveNumber);
+            }
+
             // パワーアップアイテムの生成
             SpawnPowerUpItem();
         }
@@ -59,6 +74,39 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         }
     }
 
+    // ボスを生み出す処理
+    void SpawnBossWave(int currentRound)
+    {
+        // ミニ敵を召喚する数
+        int miniEnemysToSpawn;
+        //We dont want to divide by 0!
+        if (bossRound != 0)
+        {
+            miniEnemysToSpawn = currentRound / bossRound;
+        }
+        else
+        {
+            miniEnemysToSpawn = 1;
+        }
+        // ボスを召喚
+        var boss = Instantiate(bossPrefab, GenerateSpawnPosition(), bossPrefab.transform.rotation);
+        // ボスにミニ敵を召喚する数を伝える
+        boss.GetComponent<Enemy>().miniEnemySpawnCount = miniEnemysToSpawn;
+    }
+
+    // ミニ敵を生み出す処理
+    public void SpawnMiniEnemy(int amount)
+    {
+        // 指定された数(amount) だけ生み出す
+        for(int i = 0; i < amount; i++)
+        {
+            int randomMini = Random.Range(0, miniEnemyPrefabs.Length);
+            Instantiate(miniEnemyPrefabs[randomMini], GenerateSpawnPosition(),
+            miniEnemyPrefabs[randomMini].transform.rotation);
+        }
+    }
+
+    // パワーアップアイテムを生み出す処理
     public void SpawnPowerUpItem()
     {
         // PowerUp アイテムをランダムに生成
