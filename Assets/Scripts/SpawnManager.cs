@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoSingleton<SpawnManager>
 {
     public GameObject enemyPrefab;
+    public GameObject strongEnemyPrefab;
     private float _spawnRange = 9;
     public int enemyCount;
 
@@ -16,7 +17,6 @@ public class SpawnManager : MonoSingleton<SpawnManager>
     {
         SpawnObject(powerupPrefab);
         SpawnEnemyWave(1);
-    
     }
 
     void Update()
@@ -35,14 +35,24 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         Instantiate(obj, GenerateSpawnPosition(), Quaternion.identity);
     }
 
+    // wave が進ごとに、生み出す敵の数を増やしていく
     public void SpawnEnemyWave(int enemysToSpawn)
     {
-        for(int i = 0; i < enemysToSpawn; i++)
+        int enemysCount = enemysToSpawn;
+        // waveが3進ごとに強キャラを一体生み出す
+        if(enemysCount % 3 == 0)
+        {
+            enemysCount--;
+            Instantiate(strongEnemyPrefab, GenerateSpawnPosition(), Quaternion.identity);
+        }
+        // 通常のenemy を生み出す処理
+        for(int i = 0; i < enemysCount; i++)
         {
             Instantiate(enemyPrefab, GenerateSpawnPosition(), Quaternion.identity);
         }
     }
 
+    // 生まれる位置
     private Vector3 GenerateSpawnPosition()
     {
         float spawnPosX = Random.Range(-_spawnRange, _spawnRange);

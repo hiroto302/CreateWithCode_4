@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float _speed = 3.0f;
+    public float _speed = 3.0f;
     private Rigidbody _enemyRb;
     private GameObject _player;
     // Start is called before the first frame update
