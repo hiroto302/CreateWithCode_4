@@ -548,6 +548,7 @@ MonoBehaviour:
   powerupPrefabs:
   - {fileID: 4047298745019834033, guid: 1b1d18de82da44a06a97da744899a887, type: 3}
   - {fileID: 4047298745019834033, guid: e09057a378ae34c2ca73f57c334a89eb, type: 3}
+  - {fileID: 4047298745019834033, guid: 8a18f6d6b5a5f4724bdc4741348bbb09, type: 3}
 --- !u!4 &1966250193
 Transform:
   m_ObjectHideFlags: 0
@@ -689,6 +690,10 @@ MonoBehaviour:
   currentPowerUp: 0
   rocketPrefab: {fileID: 892056465831478466, guid: 31685b62f84ed43c0b021c11161ac4bf,
     type: 3}
+  hangTime: 0.5
+  smashSpeed: 5
+  explosionForce: 50
+  explosionRadius: 10
 --- !u!1 &1996370559
 GameObject:
   m_ObjectHideFlags: 0
