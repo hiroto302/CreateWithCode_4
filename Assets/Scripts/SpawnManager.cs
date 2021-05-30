@@ -11,22 +11,29 @@ public class SpawnManager : MonoSingleton<SpawnManager>
 
     public int waveNumber = 1;
 
-    public GameObject powerupPrefab;
+    public GameObject[] powerupPrefabs;
 
     void Start()
     {
-        SpawnObject(powerupPrefab);
-        SpawnEnemyWave(1);
+        // PowerUp アイテムをランダムに生成
+        SpawnPowerUpItem();
+        // 敵を生成
+        SpawnEnemyWave(waveNumber);
     }
 
     void Update()
     {
+        // シーン内に存在している敵の数を取得し続ける
         enemyCount = FindObjectsOfType<Enemy>().Length;
+        // 敵の数が 0 になった時、
         if(enemyCount == 0)
         {
+            // wave の増加
             waveNumber++;
+            // 敵の生成
             SpawnEnemyWave(waveNumber);
-            SpawnObject(powerupPrefab);
+            // パワーアップアイテムの生成
+            SpawnPowerUpItem();
         }
     }
 
@@ -52,7 +59,14 @@ public class SpawnManager : MonoSingleton<SpawnManager>
         }
     }
 
-    // 生まれる位置
+    public void SpawnPowerUpItem()
+    {
+        // PowerUp アイテムをランダムに生成
+        int randomPowerup = Random.Range(0, powerupPrefabs.Length);
+        Instantiate(powerupPrefabs[randomPowerup], GenerateSpawnPosition(), powerupPrefabs[randomPowerup].transform.rotation);
+    }
+
+    // 生み出す位置
     private Vector3 GenerateSpawnPosition()
     {
         float spawnPosX = Random.Range(-_spawnRange, _spawnRange);
